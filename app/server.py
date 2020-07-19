@@ -9,8 +9,8 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://www.dropbox.com/s/6bgq8t6yextloqp/export.pkl?raw=1'
-export_file_name = 'export.pkl'
+export_file_url = 'https://drive.google.com/uc?export=download&id=19yW2561TVqjaD7cO7AMBay-F5Lth2fid'
+export_file_name = 'stage3_deploy.pkl'
 
 classes = ['black', 'grizzly', 'teddys']
 path = Path(__file__).parent
@@ -61,7 +61,50 @@ async def analyze(request):
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    label_dict =   {'00': 'long-dress',
+                    '01': 'dress',
+                    '02': 'shirt',
+                    '03': 'sweater',
+                    '04': 'jeans',
+                    '05': 'ring',
+                    '06': 'earring',
+                    '07': 'hat',
+                    '08': 'clutch',
+                    '09': 'carry-bag',
+                    '10': 'cellphone-cover',
+                    '11': 'cellphone',
+                    '12': 'clock',
+                    '13': 'feeding-bottle',
+                    '14': 'rice cooker',
+                    '15': 'coofee powder',
+                    '16': 'women shoes',
+                    '17': 'high-heels',
+                    '18': 'air-conditioner/remote',
+                    '19': 'flashdrive',
+                    '20': 'chair',
+                    '21': 'racket',
+                    '22': 'biking helmet',
+                    '23': 'gloves',
+                    '24': 'watch',
+                    '25': 'belt',
+                    '26': 'airphone',
+                    '27': 'vehicle toys',
+                    '28': 'jacket',
+                    '29': 'trousers',
+                    '30': 'sneakers',
+                    '31': 'snacks',
+                    '32': 'mask',
+                    '33': 'desinfectant',
+                    '34': 'skin-care product',
+                    '35': 'perfume',
+                    '36': 'home utilities',
+                    '37': 'laptop',
+                    '38': 'eating container',
+                    '39': 'vase',
+                    '40': 'shower/bidet head',
+                    '41': 'sofa'}
+    result = label_dict[prediction]
+    return JSONResponse({'result': str(result)})
 
 
 if __name__ == '__main__':
